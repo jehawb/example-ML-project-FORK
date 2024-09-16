@@ -1,0 +1,1 @@
+# saved models (and model "checkpoints") or configuration that points to where the models reside (like URL referring to MLflow/minio in the platform)

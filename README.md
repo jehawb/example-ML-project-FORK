@@ -1,1 +1,1 @@
-# example-ML-project
+# Overview of the repo, including setup instructions and crucial configuration file locations, where to put code for pipeline steps and pipeline definition, and examples. 
