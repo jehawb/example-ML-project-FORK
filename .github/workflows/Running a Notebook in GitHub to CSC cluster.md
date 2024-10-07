@@ -91,6 +91,8 @@ jobs:
 - Rename things
     - Currently names mention CSC which propably isn't going to be always the place of the remote cluster -> rename to something more generic but descriptive
     - Also demo-pipeline.ipynb file name is used for the Notebook currently
+    - IP and Usernames setup currently is CSC spesific, maybe change it to IP for the known hosts file and connection address for the SSH
+      - Recheck if adding the IP to the known hosts is a must-have
 - Correct place for the secrets 
     - GitHub offers: Env. secrets / Repo secrets / Env. vars / Repo vars
     - Currently using Repo secrets for all three secrets
