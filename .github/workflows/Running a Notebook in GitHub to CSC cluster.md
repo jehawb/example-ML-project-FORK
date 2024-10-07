@@ -1,17 +1,19 @@
-# Manual requirements (to be automated?)
+# Running a Notebook in GitHub to CSC cluster
 
-## SSH key pair to the remote cluster
+## Manual requirements (to be automated?)
+
+### SSH key pair to the remote cluster
 
 You need a keypair **without the passphrase** (or empty passphrase) setup with the remote cluster's server.
 
-## Notebook in GitHub
+### Notebook in GitHub
 
 1. The [Notebook](https://github.com/OSS-MLOPS-PLATFORM/oss-mlops-platform/blob/main/tutorials/demo_notebooks/demo_pipeline/demo-pipeline.ipynb) needs to be named `demo-pipeline.ipynb`.
 2. For the Notebook to work it also needs the [.yaml files](https://github.com/OSS-MLOPS-PLATFORM/oss-mlops-platform/tree/main/tutorials/demo_notebooks/demo_pipeline/components) in to a folder named `components/` located on the same file level as the Notebook itself.
     - ***NB!*** The *.yaml files are hidden* in GitHub's file manager!
 3. You may want to rename the run from `demo-run` to something more descriptive in the Submit run part of the Notebook.
 
-## GitHub secrets
+### GitHub secrets
 
 The GitHub actions .yaml expects three **repository secrets** to be setup for the repo (repo settings > Secrets and variables > Actions > Repository secrets)
 
@@ -28,12 +30,12 @@ The GitHub actions .yaml expects three **repository secrets** to be setup for th
 2. `REMOTE_CSC_CLUSTER_SSH_IP`: e.g. 123.123.123.123
 3. `REMOTE_CSC_CLUSTER_SSH_USERNAME`: e.g. username
 
-## Action .yml
+### Action .yml
 
 Needs to be placed in a folder system `/.github/workflows/` in the repo's root for GitHub to recoqnize it as GitHub action.
 As this is connecting to the remote cluster it should be in the staging or the production branch.
 
-# GitHub Actions .yml file
+## GitHub Actions .yml file
 
 ```
 name: Run Jupyter Notebook connected to remote server
@@ -82,7 +84,7 @@ jobs:
         
 ```
 
-# TODO
+## TODO
 
 - Automate things
     - SSH key pair creation
