@@ -23,4 +23,4 @@ jobs:
     - name: Connect to local server and run the Notebook
       run: |       
         # Execute the Jupyter Notebook and overwrite the existing file with the results
-        jupyter nbconvert --execute --to notebook --inplace notebooks/local/demo-pipeline.ipynb
+        jupyter nbconvert --execute --to notebook --inplace notebooks/demo-pipeline.ipynb
