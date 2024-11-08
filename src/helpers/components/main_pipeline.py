@@ -6,16 +6,16 @@ from evaluate_component import evaluate
 from deploy_model_component import deploy_model
 from inference_component import inference
 from pipelines import arguments  
-from submit_run_pipeline import submit_run
+from submit_run import submit_pipeline
 
 def main_pipeline():
-    # Call the pull_data component
+    #Step 1 pull_data component
     pull_task = pull_data(url=arguments["url"])
     
-    # Call the preprocess component
+    #Step 2 preprocess component
     preprocess_task = preprocess(data=pull_task.outputs["data"])
     
-    # Call the train component
+    #Step 3 train component
     train_task = train(
         train_set=preprocess_task.outputs["train_set"],
         test_set=preprocess_task.outputs["test_set"],
@@ -27,20 +27,16 @@ def main_pipeline():
         l1_ratio=arguments["l1_ratio"]
     )
     
-    # Call the evaluate component
+    #Step 4 evaluate component
     eval_task = evaluate(
         run_id=train_task.outputs["run_id"],
         mlflow_tracking_uri=arguments["mlflow_tracking_uri"],
         threshold_metrics=arguments["threshold_metrics"]
     )
     
-    # Check evaluation results
-    if eval_task.output:
-        # Call the deploy_model component
+# Step 5: Deploy the model if evaluation is successful
+    with kfp.dsl.Condition(eval_task.output == True):
         deploy_model(model_name=arguments["model_name"], storage_uri=train_task.outputs["storage_uri"])
         
-        # Call the inference component
+        # Step 6: Perform inference
         inference(model_name=arguments["model_name"], scaler_in=preprocess_task.outputs["scaler_out"])
-
-if __name__ == "__main__":
-    main_pipeline()

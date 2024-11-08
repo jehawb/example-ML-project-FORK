@@ -10,7 +10,7 @@ def submit_pipeline():
     run_name = "demo-run-aleksi-github"  # Customize your run name
     experiment_name = "demo-experiment"   # Customize your experiment name
 
-    # Create a run from the pipeline function
+    # Submit pipeline
     client.create_run_from_pipeline_func(
         pipeline_func=pipeline,
         run_name=run_name,
