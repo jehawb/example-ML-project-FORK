@@ -1,4 +1,4 @@
-# main_pipeline.py
+from kfp import dsl
 from kfp.v2.dsl import pipeline, Input, Output, Dataset, Artifact
 from pull_data_component import pull_data
 from preprocess_component import preprocess
@@ -6,8 +6,6 @@ from train_component import train
 from evaluate_component import evaluate
 from deploy_model_component import deploy_model
 from inference_component import inference
-import kfp
-from pipelines import arguments  # Ensure this imports your arguments
 
 @pipeline(name="Wine Quality Prediction Pipeline")
 def main_pipeline(url: str, 
@@ -46,8 +44,9 @@ def main_pipeline(url: str,
         threshold_metrics=threshold_metrics
     )
     
-    # Deploy model if evaluation passes
-    with eval_task.output:
+    # Check if evaluation passed and deploy model if so
+    eval_output = eval_task.output  # Accessing output directly
+    if eval_output:
         deploy_task = deploy_model(
             model_name=model_name,
             storage_uri=train_task.outputs["storage_uri"]
@@ -60,8 +59,17 @@ def main_pipeline(url: str,
     )
 
 if __name__ == "__main__":
-    # You can pass in arguments here
+    import kfp
     kfp.Client().create_run_from_pipeline_func(
         pipeline_func=main_pipeline,
-        arguments=arguments
+        arguments={  # Example arguments
+            'url': 'https://someurl.com/data.csv',
+            'mlflow_experiment_name': 'wine_quality_experiment',
+            'mlflow_tracking_uri': 'http://mlflow-tracking-server',
+            'mlflow_s3_endpoint_url': 'https://s3.amazonaws.com',
+            'model_name': 'wine_quality_model',
+            'alpha': 0.1,
+            'l1_ratio': 0.1,
+            'threshold_metrics': {'accuracy': 0.8, 'precision': 0.7}
+        }
     )

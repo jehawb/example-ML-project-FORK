@@ -4,7 +4,6 @@ from kfp.v2.dsl import component, Input, Artifact
 @component(
     base_image="python:3.9",
     packages_to_install=["numpy~=1.26.4", "kserve==0.11.0", "scikit-learn~=1.0.2"],
-    output_component_file='components/inference_component.yaml',
 )
 def inference(model_name: str, scaler_in: Input[Artifact]):
     """

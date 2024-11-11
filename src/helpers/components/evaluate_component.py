@@ -4,7 +4,6 @@ from kfp.v2.dsl import component
 @component(
     base_image="python:3.10",
     packages_to_install=["numpy", "mlflow~=2.4.1"],
-    output_component_file='components/evaluate_component.yaml',
 )
 def evaluate(run_id: str, mlflow_tracking_uri: str, threshold_metrics: dict) -> bool:
     """
