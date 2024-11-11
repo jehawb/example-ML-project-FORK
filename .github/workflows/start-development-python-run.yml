@@ -18,6 +18,7 @@ jobs:
         python -m pip install --upgrade pip
         pip install pandas
         pip install kfp
+        pip install sklearn
         
     - name: Connect to local server and run the Notebook
       run: |       
